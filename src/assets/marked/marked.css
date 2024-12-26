@@ -121,4 +121,9 @@
     h6 {
         @apply text-sm my-[0.1rem];
     }
+
+    /* image */
+    img {
+        @apply max-w-48 max-h-72;
+    }
 }
