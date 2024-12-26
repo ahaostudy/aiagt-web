@@ -284,7 +284,7 @@ async function testPluginTool() {
   const resp = await testPluginToolAPI({
     plugin_id: plugin.id,
     tool_id: focusedTool.value?.id,
-    request: btoa(testPluginToolConfig.requestBody)
+    request: btoa(String.fromCharCode(...new TextEncoder().encode(testPluginToolConfig.requestBody)))
   })
 
   testPluginToolConfig.responseBody = atob(resp.response)
