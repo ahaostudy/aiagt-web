@@ -108,8 +108,7 @@ export interface UpdateMessageReq {
   message: MessageContent;
 }
 
-export interface ListMessageReq {
-  pagination?: PaginationReq;
+export interface ListMessageReq extends PaginationReq {
   conversation_id: BigInt;
 }
 

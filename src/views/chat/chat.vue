@@ -158,7 +158,7 @@ watch(computed(() => props.conversation_id), async () => {
     loadingMessage.value = true
 
     try {
-      const resp = await listMessageAPI({ conversation_id: props.conversation_id } as ListMessageReq)
+      const resp = await listMessageAPI({ conversation_id: props.conversation_id, page_size: 200 } as ListMessageReq)
       conversation.messages.splice(0, conversation.messages.length)
       conversation.messages.push(...resp.messages)
     } finally {
