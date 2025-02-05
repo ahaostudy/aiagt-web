@@ -126,4 +126,9 @@
     img {
         @apply max-w-48 max-h-72;
     }
+
+    /* blockquote */
+    blockquote {
+        @apply border-l-2 border-[#bdc0c4] pl-3 text-[#676c74];
+    }
 }

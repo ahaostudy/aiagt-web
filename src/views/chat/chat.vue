@@ -498,6 +498,24 @@ async function uploadFile(event: Event) {
     }
   }
 }
+
+function assistantText(text: string): string {
+  const splits = text.split('\u003c/think\u003e', 2)
+
+  if (splits.length !== 2) {
+    return text
+  }
+
+  let think = splits[0].replace('\u003cthink\u003e', '').trim()
+
+  if (think.length === 0) {
+    return text
+  }
+
+  think = '> ' + think.replace(/\n/g, '\n> ').trim() + '\n\n---\n\n'
+
+  return think + splits[1]
+}
 </script>
 
 <template>
@@ -518,7 +536,7 @@ async function uploadFile(event: Event) {
           <div
             v-else-if="mg.type === 'text' && mg.msg?.role === MessageRole.ASSISTANT && mg.msg?.content.type === MessageType.TEXT"
             class="pt-2 pb-0 rounded-xl marked"
-            v-html="mark(mg.msg?.content.content.text?.text || '')"
+            v-html="mark(assistantText(mg.msg?.content.content.text?.text || ''))"
             @click="onClickMarked"
           />
           <div
