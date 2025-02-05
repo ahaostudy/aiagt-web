@@ -1,4 +1,4 @@
-import { Time } from '@/models/base'
+import { PaginationReq, PaginationResp, Time } from '@/models/base'
 
 export interface User {
   id: BigInt;
@@ -10,6 +10,16 @@ export interface User {
   description_md: string;
   github: string;
   avatar: string;
+  created_at: Time;
+  updated_at: Time;
+}
+
+export interface Secret {
+  id: BigInt;
+  user_id: BigInt;
+  plugin_id: BigInt;
+  name: string;
+  value: string;
   created_at: Time;
   updated_at: Time;
 }
@@ -41,4 +51,27 @@ export interface UserLoginResp {
   token: string;
   expire: Time;
   user: User;
+}
+
+export interface CreateSecretReq {
+  plugin_id: BigInt;
+  name: string;
+  value: string;
+}
+
+export interface UpdateSecretReq {
+  id: BigInt;
+  plugin_id?: BigInt;
+  name?: string;
+  value?: string;
+}
+
+export interface ListSecretReq extends PaginationReq {
+  plugin_id?: BigInt;
+  name?: string;
+}
+
+export interface ListSecretResp {
+  pagination: PaginationResp;
+  secrets: Secret[];
 }

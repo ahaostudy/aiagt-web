@@ -122,8 +122,7 @@ export interface UpdateConversationReq {
   title: string;
 }
 
-export interface ListConversationReq {
-  pagination?: PaginationResp;
+export interface ListConversationReq extends PaginationReq {
   app_id: string;
 }
 

@@ -6,6 +6,9 @@ import { ref } from 'vue'
 import { loginAPI, registerAPI } from '@/api/user'
 import { onEnter } from '@/utils/event.ts'
 import { Message } from '@arco-design/web-vue'
+import { IconLoading } from '@arco-design/web-vue/es/icon'
+
+document.title = 'Login - Aiagt'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -15,6 +18,7 @@ if (!authStore.email?.length) {
 }
 
 const captcha = ref('')
+const nextButtonLoading = ref(false)
 
 async function next() {
   if (captcha.value.length !== 6) {
@@ -22,21 +26,27 @@ async function next() {
     return
   }
 
-  switch (authStore.progress) {
-    case Progress.LOGIN:
-      const loginResp = await loginAPI({
-        email: authStore.email,
-        captcha: captcha.value
-      })
-      authStore.login(loginResp.user, loginResp.token, loginResp.expire)
-      break
-    case Progress.REGISTER:
-      const registerResp = await registerAPI({
-        email: authStore.email,
-        captcha: captcha.value
-      })
-      authStore.login(registerResp.user, registerResp.token, registerResp.expire)
-      break
+  nextButtonLoading.value = true
+
+  try {
+    switch (authStore.progress) {
+      case Progress.LOGIN:
+        const loginResp = await loginAPI({
+          email: authStore.email,
+          captcha: captcha.value
+        })
+        authStore.login(loginResp.user, loginResp.token, loginResp.expire)
+        break
+      case Progress.REGISTER:
+        const registerResp = await registerAPI({
+          email: authStore.email,
+          captcha: captcha.value
+        })
+        authStore.login(registerResp.user, registerResp.token, registerResp.expire)
+        break
+    }
+  } finally {
+    nextButtonLoading.value = false
   }
 
   await router.push({ path: '/' })
@@ -75,6 +85,10 @@ function back() {
         class="border-solid bg-blue-700 text-white h-10 w-full rounded-lg text-center hover:bg-blue-600 active:bg-blue-800"
         @click="next"
       >
+        <icon-loading
+          v-if="nextButtonLoading"
+          style="stroke: white"
+        />
         Next
       </button>
     </div>

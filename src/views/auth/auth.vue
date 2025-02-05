@@ -8,6 +8,8 @@ import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import { onEnter } from '@/utils/event.ts'
 
+document.title = 'Login - Aiagt'
+
 const authStore = useAuthStore()
 const router = useRouter()
 

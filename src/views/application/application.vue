@@ -20,7 +20,7 @@ const homeStore = useHomeStore()
 const appStore = useApplicationStore()
 const authStore = useAuthStore()
 
-document.title = 'Personal - Aiagt'
+document.title = 'App Store - Aiagt'
 homeStore.focusTabByName('Application')
 
 const apps = reactive([] as App[])

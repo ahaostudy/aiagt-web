@@ -39,7 +39,7 @@ getAppAPI(appID, _ => {
 const loadingConversation = ref(true)
 
 async function loadConversations() {
-  const resp = await listConversationAPI({ app_id: appID })
+  const resp = await listConversationAPI({ app_id: appID, page_size: 200 })
 
   conversations.splice(0, conversations.length)
   conversations.push(...resp.conversations)
