@@ -32,5 +32,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
           docker tag aiagt-web-preview:v${{ env.COMMIT_SHA }} $DOCKER_USERNAME/aiagt-web-preview:v${{ env.COMMIT_SHA }}
+          docker tag aiagt-web-preview:v${{ env.COMMIT_SHA }} $DOCKER_USERNAME/aiagt-web-preview:latest
           docker push $DOCKER_USERNAME/aiagt-web-preview:v${{ env.COMMIT_SHA }}
           docker push $DOCKER_USERNAME/aiagt-web-preview:latest

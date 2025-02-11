@@ -32,5 +32,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
           docker tag aiagt-web:${{ env.TAG_VERSION }} $DOCKER_USERNAME/aiagt-web:${{ env.TAG_VERSION }}
+          docker tag aiagt-web:${{ env.TAG_VERSION }} $DOCKER_USERNAME/aiagt-web:latest
           docker push $DOCKER_USERNAME/aiagt-web:${{ env.TAG_VERSION }}
           docker push $DOCKER_USERNAME/aiagt-web:latest
