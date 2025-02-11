@@ -1,0 +1,11 @@
+services:
+  web:
+    image: aiagt/aiagt-web-preview:latest
+    networks:
+      - aiagt-network
+    ports:
+      - 80:80
+
+networks:
+  aiagt-network:
+    external: true
