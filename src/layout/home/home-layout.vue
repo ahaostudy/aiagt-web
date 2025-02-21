@@ -27,7 +27,7 @@ onMounted(() => {
   new AestheticFluidBg({
     dom: "home-layout",
     colors: ["#F9F5FD", "#c6ddf8", "#faf6e4"],
-    seed: 2500,
+    seed: 2900,
     loop: true
   })
 })
