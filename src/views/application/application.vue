@@ -95,7 +95,7 @@ const pinnedLabels = computed(() => {
             allow-search
             allow-clear
             v-model="listAppConfig.selected_label"
-            @change="(value: number | undefined) => {
+            @change="(value: any) => {
                 if (value) listAppConfig.label_ids = [BigInt(value)]
                 else listAppConfig.label_ids = undefined
                 init()
@@ -103,7 +103,7 @@ const pinnedLabels = computed(() => {
           >
             <a-option
               v-for="label of appStore.appLabels"
-              :key="label.id"
+              :key="label.id.toString()"
               :value="label.id"
             >
               {{ label.text }}

@@ -154,7 +154,7 @@ init().then(() => {
             :max-tag-count="8"
             @change="modalConfig.changeLabels"
           >
-            <a-option v-for="label of appStore.appLabels" :key="label.id" :value="label.id">
+            <a-option v-for="label of appStore.appLabels" :key="label.id.toString()" :value="label.id">
               {{ label.text }}
             </a-option>
           </a-select>

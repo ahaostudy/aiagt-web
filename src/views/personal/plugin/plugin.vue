@@ -439,7 +439,7 @@ init().then(() => {
                 >
                   <a-option
                     v-for="label of pluginConfig.labels"
-                    :key="label.id"
+                    :key="label.id.toString()"
                     :value="label.id"
                   >
                     {{ label.text }}

@@ -37,13 +37,13 @@ watch(appStore.inputAppInfo, () => {
         multiple
         :max-tag-count="8"
         v-model="labelValues"
-        @change="(value: Event) => {
+        @change="(value: any) => {
           const r = parseLabels(value)
           appStore.inputAppInfo.label_ids = r.label_ids
           appStore.inputAppInfo.label_texts = r.label_texts
         }"
       >
-        <a-option v-for="label of appStore.appLabels" :key="label.id" :value="label.id">
+        <a-option v-for="label of appStore.appLabels" :key="label.id.toString()" :value="label.id">
           {{ label.text }}
         </a-option>
       </a-select>

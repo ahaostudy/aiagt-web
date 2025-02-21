@@ -128,7 +128,7 @@ const focusedPluginID = ref<BigInt>()
           >
             <a-option
               v-for="label of pluginLabels"
-              :key="label.id"
+              :key="label.id.toString()"
               :value="label.id"
               class="config-plugin-label-option"
             >
