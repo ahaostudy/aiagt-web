@@ -2,7 +2,7 @@
 import AppView from '@v/chat/chat.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getAppAPI } from '@/api/app'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { App } from '@/models/app'
 import { Conversation } from '@/models/chat'
 import { deleteConversationAPI, listConversationAPI, updateConversationAPI } from '@/api/chat'
@@ -20,6 +20,7 @@ import AiSpin from '@c/ai-spin/ai-spin.vue'
 const router = useRouter()
 const route = useRoute()
 const appID = String(route.params.id)
+const conversationIDByRoute = route.params?.conversation_id
 
 const app = reactive({} as App & { private_tools_count?: number })
 const conversations = reactive([] as (Conversation & { editing?: boolean; editing_title?: string })[])
@@ -49,7 +50,7 @@ loadConversations().then(() => {
   loadingConversation.value = false
 })
 
-const focusedConversationID = ref<BigInt | undefined>()
+const focusedConversationID = ref<BigInt | undefined>(conversationIDByRoute ? BigInt(Number(conversationIDByRoute)) : undefined)
 
 const smallWindow = ref(window.innerWidth <= 768)
 
@@ -99,6 +100,11 @@ function deleteConversation(id: BigInt, idx: number) {
     }
   })
 }
+
+watch(focusedConversationID, (cid) => {
+  if (cid) router.push(`/app/${appID}/${cid}`)
+  else router.push(`/app/${appID}`)
+})
 </script>
 
 <template>

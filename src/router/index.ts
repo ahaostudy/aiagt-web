@@ -81,6 +81,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/app/:id',
     component: AppChat
+  },
+  {
+    path: '/app/:id/:conversation_id',
+    component: AppChat
   }
 ]
 

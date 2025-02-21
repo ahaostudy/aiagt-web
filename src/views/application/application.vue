@@ -61,9 +61,9 @@ const pinnedLabels = computed(() => {
 </script>
 
 <template>
-  <div class="flex gap-2 w-full h-full" id="app-card">
+  <div class="flex gap-20 w-full h-full" id="app-card">
 
-    <div class="flex flex-col gap-4 p-4 w-52">
+    <div class="flex flex-col gap-4 p-4 min-w-60">
       <div class="px-3 pt-3 text-gray-800 font-medium">Developer</div>
       <ai-list
         class="!bg-transparent !p-0 !gap-1"
@@ -125,8 +125,8 @@ const pinnedLabels = computed(() => {
     </div>
 
     <div class="flex-1">
-      <div class="h-full flex flex-col pr-6 overflow-y-auto min-w-[480px] max-w-[1440px] mx-auto">
-        <div class="sticky top-0 bg-white py-6 px-2.5 w-full flex justify-between items-center gap-2">
+      <div class="h-full flex flex-col pr-6 overflow-y-auto min-w-[480px]">
+        <div class="sticky top-0 bg-white py-6 px-2.5 w-full flex justify-between items-center gap-2" style="font-family: Figtree,serif">
           <div class="text-lg text-gray-800 font-medium">
             App Store
           </div>
@@ -137,6 +137,7 @@ const pinnedLabels = computed(() => {
             allow-clear
             v-model="listAppConfig.name"
             @search="init"
+            @clear="init"
           />
           <ai-button
             class="!pl-4.5 !pr-4 !py-1.5 !text-[13px] !rounded-full !bg-blue-600 !font-medium"
@@ -149,7 +150,7 @@ const pinnedLabels = computed(() => {
 
         <ai-spin :loading="loading">
           <div
-            class="w-full gap-7 pt-1 pb-3 pl-1 pr-2 grid grid-cols-2 w5:grid-cols-3 w6:grid-cols-4"
+            class="w-full gap-7 pt-1 pb-3 pl-1 pr-2 grid grid-cols-2 w5:grid-cols-3 w6:grid-cols-4 w7:grid-cols-5 w9:grid-cols-6 w10:grid-cols-7"
             v-if="apps?.length"
           >
             <card

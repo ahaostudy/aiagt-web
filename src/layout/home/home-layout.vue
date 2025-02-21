@@ -18,11 +18,24 @@ const homeStore = useHomeStore()
 const authStore = useAuthStore()
 
 const router = useRouter()
+
+
+import { AestheticFluidBg } from '@/libs/AestheticFluidBg.module.js'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  new AestheticFluidBg({
+    dom: "home-layout",
+    colors: ["#F9F5FD", "#c6ddf8", "#fdf6fb", "#faf6e4"],
+    seed: 2500,
+    loop: true
+  })
+})
 </script>
 
 <template>
-  <div class="home-layout h-screen flex p-1">
-    <div class="min-w-48 p-3.5 pl-2 flex flex-col justify-between">
+  <div class="home-layout h-screen flex p-1.5" id="home-layout">
+    <div class="min-w-48 p-3.5 pl-2 flex flex-col justify-between" style="position: relative; z-index: 1">
       <div class="flex flex-col gap-5">
         <aiagt-long class="w-25" />
         <search v-model="homeStore.searchText" />
@@ -153,7 +166,7 @@ const router = useRouter()
       </div>
     </div>
 
-    <div class="w-full h-full overflow-auto bg-white flex-1 rounded-lg min-w-[520px] shadow-md shadow-gray-300">
+    <div class="w-full h-full overflow-auto bg-white flex-1 rounded-lg min-w-[520px] shadow-md shadow-gray-300" style="position: relative; z-index: 1">
       <router-view />
     </div>
   </div>

@@ -17,6 +17,7 @@
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
     "flyonui": "^1.1.0",
+    "jsm": "^0.0.1",
     "json-bigint": "^1.0.0",
     "json-schema-faker": "^0.5.6",
     "marked": "^15.0.0",
@@ -36,8 +37,8 @@
     "@vue/runtime-dom": "^3.5.13",
     "autoprefixer": "^10.4.20",
     "less": "^4.2.0",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.5.3",
     "vite": "^5.4.8",
     "vue-tsc": "^2.1.6"

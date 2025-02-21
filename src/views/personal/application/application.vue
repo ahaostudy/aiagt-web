@@ -54,7 +54,7 @@ const autoSave = debounce(() => {
     init()
     autoSavedAt.value = new Date()
   })
-}, 1000)
+}, 3000)
 
 watch(appStore.inputAppInfo, () => {
   if (appStore.inputAppInfoInit) {
