@@ -26,7 +26,7 @@ import { onMounted } from 'vue'
 onMounted(() => {
   new AestheticFluidBg({
     dom: 'home-layout',
-    colors: ['#F9F5FD', '#fbfaf2', '#f6f9fd', '#fdeef8'],
+    colors: ['#F9F5FD', '#edf3fb', '#fffeef', '#fdeef8'],
     seed: 2900,
     loop: true
   })
