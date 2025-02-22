@@ -25,8 +25,8 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   new AestheticFluidBg({
-    dom: "home-layout",
-    colors: ["#F9F5FD", "#c6ddf8", "#faf6e4"],
+    dom: 'home-layout',
+    colors: ['#F9F5FD', '#fbfaf2', '#f6f9fd', '#fdeef8'],
     seed: 2900,
     loop: true
   })
@@ -97,7 +97,8 @@ onMounted(() => {
           <div
             class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white active:scale-[.98] cursor-pointer transition"
           >
-            <img :src="asset(authStore.userinfo.avatar)" :alt="authStore.userinfo.username" class="w-6 h-6 rounded-full bg-white">
+            <img :src="asset(authStore.userinfo.avatar)" :alt="authStore.userinfo.username"
+                 class="w-6 h-6 rounded-full bg-white">
             <div
               class="flex flex-col gap-1"
             >
@@ -118,7 +119,8 @@ onMounted(() => {
                 class="hover:!bg-gray-100 !rounded-md !px-1"
                 inner-class="!pl-2 !pr-3 !justify-start !py-2 !gap-3 text-gray-800"
               >
-                <img :src="asset(authStore.userinfo.avatar)" :alt="authStore.userinfo.username" class="w-8 h-8 rounded-full bg-white">
+                <img :src="asset(authStore.userinfo.avatar)" :alt="authStore.userinfo.username"
+                     class="w-8 h-8 rounded-full bg-white">
                 <div
                   class="flex flex-col gap-2"
                 >
@@ -166,7 +168,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="w-full h-full overflow-auto bg-white flex-1 rounded-lg min-w-[520px] shadow-md shadow-gray-300" style="position: relative; z-index: 1">
+    <div class="w-full h-full overflow-auto bg-white flex-1 rounded-lg min-w-[520px] shadow-md shadow-gray-300"
+         style="position: relative; z-index: 1">
       <router-view />
     </div>
   </div>

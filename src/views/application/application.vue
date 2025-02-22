@@ -61,7 +61,7 @@ const pinnedLabels = computed(() => {
 </script>
 
 <template>
-  <div class="flex gap-20 w-full h-full" id="app-card">
+  <div class="flex gap-10 w-full h-full" id="app-card">
 
     <div class="flex flex-col gap-4 p-4 min-w-60">
       <div class="px-3 pt-3 text-gray-800 font-medium">Developer</div>
