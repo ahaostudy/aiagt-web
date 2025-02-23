@@ -22,6 +22,7 @@ const router = useRouter()
 
 import { AestheticFluidBg } from '@/libs/AestheticFluidBg.module.js'
 import { onMounted } from 'vue'
+import SecretConfig from '@/layout/home/components/secret-config.vue'
 
 onMounted(() => {
   new AestheticFluidBg({
@@ -91,7 +92,7 @@ onMounted(() => {
           v-if="authStore.userinfo?.id"
           trigger="click"
           position="tl"
-          unmount-on-close
+          :unmount-on-close="false"
           :popup-translate="[0, -5]"
         >
           <div
@@ -135,6 +136,26 @@ onMounted(() => {
                   </div>
                 </div>
               </ai-list-item>
+              <a-trigger
+                position="rb"
+                trigger="click"
+                auto-fit-position
+                unmount-on-close
+                :popup-translate="[10, 20]"
+              >
+                <ai-list-item
+                  class="hover:!bg-gray-100 !rounded-md !px-1"
+                  inner-class="!px-3.5 !py-2.5 !justify-start !gap-2 font-medium !text-gray-600"
+                >
+                  <div class="text-[16px]">
+                    <icon-import stroke-linecap="round" stroke-linejoin="round" />
+                  </div>
+                  Secrets
+                </ai-list-item>
+                <template #content>
+                  <secret-config />
+                </template>
+              </a-trigger>
               <ai-list-item
                 class="hover:!bg-gray-100 !rounded-md !px-1"
                 inner-class="!px-3.5 !py-2.5 !justify-start !gap-2 font-medium !text-gray-600"

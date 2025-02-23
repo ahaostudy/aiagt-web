@@ -50,7 +50,6 @@ function init() {
 init()
 
 const pinnedLabels = computed(() => {
-  console.log(appStore.appLabels)
   const result = appStore.appLabels.filter((label: AppLabel) => {
     return label.pinned
   })
@@ -79,7 +78,7 @@ const pinnedLabels = computed(() => {
           text="Personal"
           focus-class="!bg-gray-100"
           focus-inner-class="!text-gray-800"
-          :focused="listAppConfig.author_id === authStore.userinfo.id"
+          :focused="authStore.userinfo.id && listAppConfig.author_id === authStore.userinfo.id"
           @click="listAppConfig.author_id = authStore.userinfo.id; init()"
         />
       </ai-list>

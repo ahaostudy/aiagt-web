@@ -169,3 +169,12 @@ export interface ListPluginByToolsReq {
 export interface ListPluginByToolsResp {
   plugins: Plugin[];
 }
+
+export interface PluginSecrets {
+  plugin_id: BigInt;
+  plugin_name: string;
+  secrets: PluginSecret[];
+  is_private: boolean;
+  author_id: string;
+  plugin_logo: string;
+}

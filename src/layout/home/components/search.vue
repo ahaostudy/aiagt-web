@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { IconSearch } from '@arco-design/web-vue/es/icon'
-import { modelValueEmits, modelValueProps, updateModelValue } from '@/utils/model_value.ts'
+import { vModelEmits, vModelPropsObj, vModelOnInput } from '@/utils/model_value.ts'
 import { ref, watch } from 'vue'
 
-const props = defineProps(modelValueProps())
-const emits = defineEmits(modelValueEmits())
+const props = defineProps(vModelPropsObj())
+const emits = defineEmits(vModelEmits())
 
 const modelValue = ref(props.modelValue)
 
@@ -34,7 +34,7 @@ watch(searchFocus, (v) => {
       placeholder="Search (⌘ + K)"
       class="placeholder-gray-500 text-xs w-32 text-black transition"
       v-model="modelValue"
-      @input="updateModelValue(emits, modelValue)"
+      @input="vModelOnInput(emits, modelValue)"
       @focus="searchFocus = true"
       @blur="searchFocus = false"
       ref="searchInputRef"

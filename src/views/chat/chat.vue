@@ -13,6 +13,9 @@ import AiSpin from '@c/ai-spin/ai-spin.vue'
 import AiImage from '@c/ai-image/ai-image.vue'
 import { uploadAssetsAPI } from '@/api/assets'
 import { UploadAssetResp } from '@/models/assets'
+import { useAuthStore } from '@/store/auth.ts'
+import ChatOption from '@v/chat/components/chat-option.vue'
+import SecretConfig from '@v/chat/components/secret-config.vue'
 
 const props = defineProps<{
   app: App;
@@ -241,7 +244,11 @@ function chat(messages?: MessageContent[]) {
           handleChatChunk(data as ChatResp, status)
           break
         case 'error':
-          ArcoMessage.error(data as string)
+          if (data === '<chat.auth> unauthorized') {
+            ArcoMessage.error('please login first')
+          } else {
+            ArcoMessage.error(data as string)
+          }
           break
         case 'done':
           console.log(conversation.messages)
@@ -250,7 +257,11 @@ function chat(messages?: MessageContent[]) {
       }
     },
     error => {
-      ArcoMessage.error(error)
+      if (error?.code && typeof error?.code === 'number' && error?.code % 100 === 41) {
+        ArcoMessage.error('please login first')
+      } else {
+        ArcoMessage.error(error)
+      }
       chatting.value = false
     }
   )
@@ -367,7 +378,7 @@ function isSendEvent(event?: KeyboardEvent) {
 }
 
 function sendMsg(e?: Event) {
-  if (chatting.value || uploadingFile.value) return
+  if (disableSendMsg.value) return
 
   const event = e as KeyboardEvent | undefined
 
@@ -426,7 +437,7 @@ const updateMsgStatus = reactive({
 })
 
 async function updateMsg(e?: Event) {
-  if (chatting.value || uploadingFile.value) return
+  if (disableSendMsg.value) return
 
   const event = e as KeyboardEvent | undefined
 
@@ -516,6 +527,12 @@ function assistantText(text: string): string {
 
   return think + splits[1]
 }
+
+const authStore = useAuthStore()
+
+const disableSendMsg = computed(() => {
+  return chatting.value || uploadingFile.value || !authStore.loggedIn()
+})
 </script>
 
 <template>
@@ -645,11 +662,8 @@ function assistantText(text: string): string {
       </div>
     </ai-spin>
     <div class="inner-container sticky bottom-0">
-      <div class="px-2 flex justify-between">
-        <div
-          class="text-xs pl-3.5 pr-3 py-1 rounded-xl bg-[#f8f8f8] border-[0.5px] flex items-center gap-1"
-          v-if="updateMsgStatus.id"
-        >
+      <div class="flex gap-2 px-0.5">
+        <chat-option v-if="updateMsgStatus.id">
           Editing message
           <div
             class="hover:bg-white text-gray-500 rounded-full w-4 h-4 flex justify-center items-center"
@@ -657,10 +671,19 @@ function assistantText(text: string): string {
           >
             <icon-close />
           </div>
-        </div>
+        </chat-option>
+        <a-trigger trigger="click" position="tl" unmount-on-close :popup-translate="[0, -10]" v-if="app.plugin_secrets">
+          <chat-option type="primary">
+            <icon-lock :stroke-width="4" size="15px" />
+            Secrets config
+          </chat-option>
+          <template #content>
+            <secret-config :plugin-secrets="app.plugin_secrets"></secret-config>
+          </template>
+        </a-trigger>
       </div>
       <div
-        class="mt-2 px-1.5 py-1 rounded-[1.5rem] border bg-[#fafafa] question-input shadow-xl shadow-gray-200"
+        class="mt-3 px-1.5 py-1 rounded-[1.5rem] border bg-[#fafafa] question-input shadow-xl shadow-gray-200"
       >
         <div class="flex gap-1 px-3" v-show="conversation.inputFiles.length">
           <div
@@ -715,7 +738,10 @@ function assistantText(text: string): string {
           <input type="file" ref="fileInput" class="hidden" @change="uploadFile" />
           <button
             class="h-7 w-7 m-0.5 text-[16px] text-gray-500 rounded-lg hover:bg-gray-100"
-            @click="fileInput?.click()"
+            :class="{'!cursor-not-allowed': !authStore.loggedIn}"
+            @click="() => {
+              if (authStore.loggedIn()) fileInput?.click()
+            }"
             v-if="!uploadingFile"
           >
             <icon-plus />
@@ -726,16 +752,23 @@ function assistantText(text: string): string {
           >
             <icon-loading />
           </button>
-          <button
-            class="bg-black text-white text-lg rounded-full my-0.5 !w-8 !h-8 flex justify-center items-center ml-2"
-            :class="{'!bg-gray-500 !cursor-not-allowed': chatting || uploadingFile}"
-            @click="() => {
-              if (updateMsgStatus.id) updateMsg()
-              else sendMsg()
-            }"
+          <a-tooltip
+            content="Please login first"
+            :background-color="!authStore.loggedIn() ? '#1e2129' : 'transparent'"
+            position="top"
+            mini
           >
-            <icon-arrow-up :stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
-          </button>
+            <button
+              class="bg-black text-white text-lg rounded-full my-0.5 !w-8 !h-8 flex justify-center items-center ml-2"
+              :class="{'!bg-gray-500 !cursor-not-allowed': disableSendMsg}"
+              @click="() => {
+                if (updateMsgStatus.id) updateMsg()
+                else sendMsg()
+              }"
+            >
+              <icon-arrow-up :stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+            </button>
+          </a-tooltip>
         </div>
       </div>
     </div>

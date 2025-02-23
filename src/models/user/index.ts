@@ -22,6 +22,8 @@ export interface Secret {
   value: string;
   created_at: Time;
   updated_at: Time;
+  plugin_name?: string;
+  plugin_logo?: string;
 }
 
 export interface UserCaptchaResp {
@@ -53,21 +55,20 @@ export interface UserLoginResp {
   user: User;
 }
 
-export interface CreateSecretReq {
+export interface SaveSecretReqItem {
   plugin_id: BigInt;
   name: string;
   value: string;
 }
 
-export interface UpdateSecretReq {
-  id: BigInt;
-  plugin_id?: BigInt;
-  name?: string;
-  value?: string;
+
+export interface SaveSecretReq {
+  secrets: SaveSecretReqItem[];
 }
 
 export interface ListSecretReq extends PaginationReq {
   plugin_id?: BigInt;
+  plugin_ids?: BigInt[];
   name?: string;
 }
 

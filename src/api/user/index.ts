@@ -1,9 +1,8 @@
-import { get, del, post, put } from '@/api/axios'
+import { post } from '@/api/axios'
 import {
-  CreateSecretReq,
   ListSecretReq,
   ListSecretResp,
-  UpdateSecretReq,
+  SaveSecretReq,
   UserCaptchaResp,
   UserLoginReq,
   UserLoginResp,
@@ -26,22 +25,12 @@ export async function sendCaptchaAPI(email: string): Promise<UserCaptchaResp> {
   return Promise.resolve(resp.data)
 }
 
-export async function createSecretAPI(req: CreateSecretReq): Promise<void> {
-  const resp = await post('/user/secret', req)
-  return Promise.resolve(resp.data)
-}
-
-export async function updateSecretAPI(req: UpdateSecretReq): Promise<void> {
-  const resp = await put('/user/secret', req)
-  return Promise.resolve(resp.data)
-}
-
-export async function deleteSecretAPI(id: BigInt): Promise<void> {
-  const resp = await del(`/user/secret/${id.toString()}`)
+export async function saveSecretsAPI(req: SaveSecretReq): Promise<void> {
+  const resp = await post('/user/secret/batch_save', req)
   return Promise.resolve(resp.data)
 }
 
 export async function listSecretAPI(req: ListSecretReq): Promise<ListSecretResp> {
-  const resp = await get('/user/secret', req)
+  const resp = await post('/user/secret/list', req)
   return Promise.resolve(resp.data)
 }

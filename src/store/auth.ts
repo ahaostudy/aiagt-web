@@ -35,6 +35,10 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  function loggedIn(): boolean {
+    return !!userinfo?.value?.id;
+  }
+
   function verifyLoggedIn(): boolean {
     if (!userinfo?.value?.id) {
       Message.error('please login first')
@@ -77,5 +81,5 @@ export const useAuthStore = defineStore('auth', () => {
 
   loadUserInfo()
 
-  return { progress, email, userinfo, login, verifyLoggedIn, logout, loadUserInfo, getToken }
+  return { progress, email, userinfo, login, loggedIn, verifyLoggedIn, logout, loadUserInfo, getToken }
 })

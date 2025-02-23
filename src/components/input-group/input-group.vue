@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, HTMLAttributes, ref } from 'vue'
-import { modelValueEmits, updateModelValue } from '@/utils/model_value.ts'
+import { vModelEmits, vModelOnInput } from '@/utils/model_value.ts'
 
 const props = defineProps<{
   name: string;
@@ -25,7 +25,7 @@ const props = defineProps<{
   titleClass?: HTMLAttributes['class'];
 }>()
 
-const emits = defineEmits(modelValueEmits())
+const emits = defineEmits(vModelEmits())
 
 const input = ref<HTMLInputElement>()
 const updated = ref(false)
@@ -58,7 +58,7 @@ const valid = computed((): boolean => {
         :modelValue="modelValue"
         @input="(v: any) => {
           updated=true;
-          updateModelValue(emits, v)
+          vModelOnInput(emits, v)
         }"
         :error="!valid"
       />
@@ -69,7 +69,7 @@ const valid = computed((): boolean => {
         :modelValue="modelValue"
         @input="(v: any) => {
           updated=true;
-          updateModelValue(emits, v)
+          vModelOnInput(emits, v)
         }"
         :error="!valid"
       />

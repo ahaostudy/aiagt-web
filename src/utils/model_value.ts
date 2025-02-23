@@ -1,12 +1,16 @@
 import { EmitFn } from '@vue/runtime-core'
 
-export const modelValueProps = () => {
+export interface vModelProps {
+  modelValue?: string
+}
+
+export const vModelPropsObj = () => {
   return { modelValue: { type: String, default: '' } }
 }
 
-export const modelValueEmits = () => ['update:modelValue', 'change']
+export const vModelEmits = () => ['update:modelValue', 'change']
 
-export function updateModelValue(emits: EmitFn, modelValue: string | undefined) {
+export function vModelOnInput(emits: EmitFn, modelValue: string | undefined) {
   emits('update:modelValue', modelValue)
   emits('change', modelValue)
 }

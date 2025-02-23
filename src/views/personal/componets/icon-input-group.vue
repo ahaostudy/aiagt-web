@@ -2,7 +2,7 @@
 import InputGroup from '@c/input-group/input-group.vue'
 import { FileItem } from '@arco-design/web-vue'
 import { uploadAssetsAPI } from '@/api/assets'
-import { modelValueEmits, modelValueProps } from '@/utils/model_value.ts'
+import { vModelEmits, vModelPropsObj } from '@/utils/model_value.ts'
 import { computed, ref, watch } from 'vue'
 import { asset } from '@/models/assets'
 
@@ -23,9 +23,9 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  ...modelValueProps()
+  ...vModelPropsObj()
 })
-const emits = defineEmits(modelValueEmits())
+const emits = defineEmits(vModelEmits())
 
 const fileURL = ref(props.modelValue)
 const fileLocalURL = ref<string>()

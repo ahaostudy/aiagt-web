@@ -1,6 +1,6 @@
 import { PaginationReq, PaginationResp, Time } from '@/models/base'
 import { User } from '@/models/user'
-import { PluginTool } from '@/models/plugin'
+import { PluginSecrets, PluginTool } from '@/models/plugin'
 
 export interface App {
   id: BigInt;
@@ -25,6 +25,7 @@ export interface App {
   created_at: Time;
   updated_at: Time;
   published_at?: Time;
+  plugin_secrets?: PluginSecrets[];
 }
 
 export interface ModelConfig {
