@@ -533,6 +533,14 @@ const authStore = useAuthStore()
 const disableSendMsg = computed(() => {
   return chatting.value || uploadingFile.value || !authStore.loggedIn()
 })
+
+const showSecretsConfig = computed(() => {
+  for (const secrets of props.app?.plugin_secrets || []) {
+    if (secrets?.secrets?.length) return true
+  }
+
+  return false
+})
 </script>
 
 <template>
@@ -672,13 +680,13 @@ const disableSendMsg = computed(() => {
             <icon-close />
           </div>
         </chat-option>
-        <a-trigger trigger="click" position="tl" unmount-on-close :popup-translate="[0, -10]" v-if="app.plugin_secrets">
+        <a-trigger trigger="click" position="tl" unmount-on-close :popup-translate="[0, -10]" v-if="showSecretsConfig">
           <chat-option type="primary">
-            <icon-lock :stroke-width="4" size="15px" />
-            Secrets config
+            <icon-lock :stroke-width="5" />
+            Secrets
           </chat-option>
           <template #content>
-            <secret-config :plugin-secrets="app.plugin_secrets"></secret-config>
+            <secret-config :plugin-secrets="app?.plugin_secrets || []"></secret-config>
           </template>
         </a-trigger>
       </div>

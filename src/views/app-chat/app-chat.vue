@@ -175,13 +175,13 @@ watch(focusedConversationID, (cid) => {
                 <div class="px-1 bg-gray-100 rounded-sm text-[8px]">{{ model.source }}</div>
               </div>
 
-              <div v-if="app.tools?.length" class="text-xs font-medium">
+              <div v-if="app.tools?.length || app.private_tools_count" class="text-xs font-medium">
                 Plugin tools
               </div>
 
-              <div v-if="app.tools?.length" class="flex flex-wrap gap-2">
+              <div v-if="app.tools?.length || app.private_tools_count" class="flex flex-wrap gap-2">
                 <div
-                  v-for="tool of app.tools.slice(0, 3)"
+                  v-for="tool of (app.tools || [])"
                   class="flex items-center gap-1 py-1.5 px-2 text-xs !text-[11px] text-gray-700 rounded-md bg-gray-100 app-tools-item transition"
                 >
                   <ai-image v-if="tool.plugin" :src="tool.plugin?.logo" :alt="tool.name" class="w-4 h-4" />
