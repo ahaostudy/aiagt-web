@@ -16,6 +16,7 @@
     "@vue/language-server": "2.0.26",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
+    "eventsource-parser": "^3.0.0",
     "flyonui": "^1.1.0",
     "jsm": "^0.0.1",
     "json-bigint": "^1.0.0",

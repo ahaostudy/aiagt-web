@@ -1,7 +1,49 @@
+import { EventSourceParserStream } from 'eventsource-parser/stream'
+
 export interface SseMessage {
   event: string;
   data: string;
   id?: string;
+}
+
+export async function sseV2(
+  url: string,
+  data: object,
+  headers: Record<string, string>,
+  onMessage: (message: SseMessage) => void,
+  onError: (error: any) => void = console.error
+) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: JSON.stringify(data, (_, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+      )
+    })
+
+    const reader = response.body
+      ?.pipeThrough(new TextDecoderStream())
+      ?.pipeThrough(new EventSourceParserStream())
+      ?.getReader()
+
+    while (true) {
+      const { value, done } = await reader?.read() || { value: {}, done: false }
+      if (done) break
+
+      onMessage({
+        event: value?.event || '',
+        data: value?.data || '',
+        id: value?.id || ''
+      })
+    }
+
+  } catch (e) {
+    onError(e)
+  }
 }
 
 export function sse(

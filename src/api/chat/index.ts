@@ -3,11 +3,14 @@ import {
   ChatResp,
   InitDevelopReq,
   InitDevelopResp,
-  ListConversationReq, ListConversationResp,
+  ListConversationReq,
+  ListConversationResp,
   ListMessageReq,
-  ListMessageResp, UpdateConversationReq, UpdateMessageReq
+  ListMessageResp,
+  UpdateConversationReq,
+  UpdateMessageReq
 } from '@/models/chat'
-import { sse } from '@/utils/sse.ts'
+import { sseV2 } from '@/utils/sse.ts'
 import { useAuthStore } from '@/store/auth.ts'
 import { del, get, post, put } from '@/api/axios'
 import JSONBigInt from 'json-bigint'
@@ -26,7 +29,7 @@ export function chatAPI(
     headers['Authorization'] = `Bearer ${token}`
   }
 
-  sse(`${import.meta.env.VITE_API_BASE_URL}/chat/chat`, req, headers, message => {
+  sseV2(`${import.meta.env.VITE_API_BASE_URL}/chat/chat`, req, headers, message => {
     switch (message.event) {
       case 'chunk':
         onMessage(message.event, JSONBigInt.parse(message.data) as ChatResp)
