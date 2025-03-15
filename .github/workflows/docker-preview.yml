@@ -35,3 +35,15 @@ jobs:
           docker tag aiagt-web-preview:v${{ env.COMMIT_SHA }} $DOCKER_USERNAME/aiagt-web-preview:latest
           docker push $DOCKER_USERNAME/aiagt-web-preview:v${{ env.COMMIT_SHA }}
           docker push $DOCKER_USERNAME/aiagt-web-preview:latest
+
+      - name: Deploy to Server
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+            cd aiagt/deploy
+            sudo docker-compose -f docker-compose-web.yml pull
+            sudo docker-compose -f docker-compose-web.yml up -d
+          EOF

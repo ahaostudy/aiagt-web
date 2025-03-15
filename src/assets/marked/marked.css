@@ -1,3 +1,5 @@
+@import '@/assets/font/font.css';
+
 .marked {
     @apply flex flex-col gap-2 leading-5 max-w-full;
     @apply text-[#202328] text-[13px];
@@ -64,6 +66,7 @@
         .code-language {
             @apply rounded-t-lg bg-[#fafbfc] border-b border-gray-200 px-4.5 py-[0.35rem] text-gray-700;
             @apply flex justify-between items-center;
+            font-family: 'Source Code Pro', serif;
 
             .code-copy {
                 @apply rounded-md hover:bg-gray-100 active:bg-gray-200 transition p-[0.325rem];
@@ -72,6 +75,10 @@
 
         .code-box {
             @apply rounded-b-lg px-4.5 py-3 text-gray-700 overflow-x-auto;
+
+            code {
+                font-family: 'Source Code Pro', 'NotoSansSC', serif;
+            }
         }
     }
 
@@ -80,6 +87,7 @@
     p > code,
     li > code {
         @apply text-xs text-black py-0.5 px-1 mx-0.5 rounded-[0.2rem] bg-gray-100 border;
+        font-family: 'Source Code Pro', serif;
     }
 
     /* table */
@@ -123,11 +131,13 @@
     }
 
     /* image */
+
     img {
         @apply max-w-48 max-h-72;
     }
 
     /* blockquote */
+
     blockquote {
         @apply border-l-2 border-[#bdc0c4] pl-3 text-[#676c74];
     }

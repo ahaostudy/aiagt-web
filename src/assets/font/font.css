@@ -12,3 +12,13 @@
     font-family: 'Figtree';
     src: url('./Figtree.ttf');
 }
+
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('./SourceCodePro.ttf');
+}
+
+@font-face {
+    font-family: 'NotoSansSC';
+    src: url('./NotoSansSC.ttf');
+}
