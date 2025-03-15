@@ -209,7 +209,7 @@ const pinnedLabels = computed(() => {
   margin: 0;
   margin-bottom: -20px;
   background: linear-gradient(to bottom, #a1bcf6, #ffffff),
-  linear-gradient(to right, #8b94f3, #7984f8, #c8c4fa, #ae7bfa, #a1bcf6);
+  linear-gradient(to right, #d8e0fb, #8b94f3, #7984f8, #c8c4fa, #ae7bfa, #a1bcf6);
   background-size: cover;
   background-blend-mode: screen;
 }
