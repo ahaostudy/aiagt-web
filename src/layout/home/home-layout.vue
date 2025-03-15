@@ -27,8 +27,8 @@ import SecretConfig from '@/layout/home/components/secret-config.vue'
 onMounted(() => {
   new AestheticFluidBg({
     dom: 'home-layout',
-    colors: ['#F9F5FD', '#edf3fb', '#fffeef', '#fdeef8'],
-    seed: 2900,
+    colors: ['#fff3fe','#f9f0ff','#f5f6ff'],
+    seed: 30,
     loop: true
   })
 })

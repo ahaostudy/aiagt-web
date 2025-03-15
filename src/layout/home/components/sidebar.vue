@@ -20,7 +20,7 @@ const router = useRouter()
       v-show="tab.position === position"
       :key="tab.title"
       class="flex gap-2.5 px-3 py-[0.435rem] items-center rounded-[0.435rem] hover:bg-white cursor-pointer
-              text-gray-500 stroke-gray-500 transition duration-300 font-semibold"
+              text-gray-700 stroke-gray-700 transition duration-300 font-semibold"
       :class="{'stroke-blue-700 bg-white hover:bg-white': homeStore.isFocused(i), '!cursor-not-allowed': tab.link == '#'}"
       @click="() => {
         if (tab.link != '#') {
