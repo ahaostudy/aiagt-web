@@ -21,7 +21,7 @@ export const useApplicationStore = defineStore('application', () => {
   const initAppLabels = async () => {
     const resp = await listAppLabelAPI({ page_size: 10000 })
 
-    appLabels.splice(0, appLabels.length)
+    appLabels.splice(0)
     appLabels.push(...resp.labels)
   }
 
