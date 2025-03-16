@@ -74,9 +74,10 @@
         }
 
         .code-box {
-            @apply rounded-b-lg px-4.5 py-3 text-gray-700 overflow-x-auto;
+            @apply rounded-b-lg px-4.5 py-3 overflow-x-auto;
 
             code {
+                @apply font-normal;
                 font-family: 'Source Code Pro', 'NotoSansSC', serif;
             }
         }

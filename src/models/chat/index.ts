@@ -15,7 +15,8 @@ export enum MessageRole {
   ASSISTANT,
   SYSTEM,
   FUNCTION,
-  TOOL
+  TOOL,
+  ERROR
 }
 
 export interface MessageContentValue {

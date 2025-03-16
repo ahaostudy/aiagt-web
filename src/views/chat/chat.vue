@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { App } from '@/models/app'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { chatAPI, deleteMessageAPI, initDevelopAPI, listMessageAPI, updateMessageAPI } from '@/api/chat'
 import { ChatResp, ListMessageReq, Message, MessageContent, MessageRole, MessageType } from '@/models/chat'
 import { Message as ArcoMessage } from '@arco-design/web-vue'
@@ -16,6 +16,8 @@ import { UploadAssetResp } from '@/models/assets'
 import { useAuthStore } from '@/store/auth.ts'
 import ChatOption from '@v/chat/components/chat-option.vue'
 import SecretConfig from '@v/chat/components/secret-config.vue'
+import Prism from 'prismjs'
+import '@/assets/marked/prism.css'
 
 const props = defineProps<{
   app: App;
@@ -247,8 +249,9 @@ function chat(messages?: MessageContent[]) {
           if (data === '<chat.auth> unauthorized') {
             ArcoMessage.error('please login first')
           } else {
-            ArcoMessage.error(data as string)
+            conversation.messages.push(newTextMessage(MessageRole.ERROR, data as string))
           }
+          chatting.value = false
           break
         case 'done':
           console.log(conversation.messages)
@@ -260,23 +263,27 @@ function chat(messages?: MessageContent[]) {
       if (error?.code && typeof error?.code === 'number' && error?.code % 100 === 41) {
         ArcoMessage.error('please login first')
       } else {
-        ArcoMessage.error(error)
+        conversation.messages.push(newTextMessage(MessageRole.ERROR, error as string))
       }
       chatting.value = false
     }
   )
 
   if (messages) {
-    const now = Date.now()
-    conversation.messages.push({
-      id: BigInt(now),
-      conversation_id: conversation.id || BigInt(0),
-      role: MessageRole.USER,
-      content: { type: MessageType.TEXT, content: { text: { text: conversation.inputMessage } } },
-      created_at: new Time({ timestamp: now }),
-      updated_at: new Time({ timestamp: now })
-    })
+    conversation.messages.push(newTextMessage(MessageRole.USER, conversation.inputMessage))
     conversation.inputMessage = ''
+  }
+}
+
+function newTextMessage(role: MessageRole, text: string): Message {
+  const now = Date.now()
+  return {
+    id: BigInt(now),
+    conversation_id: conversation.id || BigInt(0),
+    role: role,
+    content: { type: MessageType.TEXT, content: { text: { text: text } } },
+    created_at: new Time({ timestamp: now }),
+    updated_at: new Time({ timestamp: now })
   }
 }
 
@@ -327,6 +334,7 @@ function handleChatChunk(chunk: ChatResp, status: ChatStatus) {
         switch (content.type) {
           case MessageType.TEXT:
             updateLastMsg(message)
+            Prism.highlightAll()
             break
           case MessageType.FUNCTION_CALL:
             updateLastMsg(message)
@@ -541,6 +549,10 @@ const showSecretsConfig = computed(() => {
 
   return false
 })
+
+onUpdated(() => {
+  Prism.highlightAll()
+})
 </script>
 
 <template>
@@ -564,6 +576,13 @@ const showSecretsConfig = computed(() => {
             v-html="mark(assistantText(mg.msg?.content.content.text?.text || ''))"
             @click="onClickMarked"
           />
+          <div
+            v-else-if="mg.msg?.role === MessageRole.ERROR"
+            class="pt-2 pb-0 text-red-500"
+            @click="onClickMarked"
+          >
+            <span class="font-semibold">Error</span> {{ mg.msg?.content.content.text?.text }}
+          </div>
           <div
             v-else-if="mg.type === 'file' && mg.msg?.role === MessageRole.USER && mg.msg?.content.type === MessageType.FILE"
             class="px-3 py-2 rounded-xl bg-white border-[0.5px] flex flex-col"
@@ -620,6 +639,7 @@ const showSecretsConfig = computed(() => {
           <div
             class="py-2 text-gray-400 flex gap-2 text-xs !text-[11px] items-center"
             v-if="mg.type === 'text'"
+            v-show="mg.msg?.role !== MessageRole.ERROR"
           >
             <div>{{ new Time(mg.msg?.updated_at).string() }}</div>
             <a-popconfirm
